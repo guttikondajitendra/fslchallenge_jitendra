@@ -3,25 +3,30 @@ name : CI Pipline
 on:
   pull_request:
     branches:
-      - "*"
+      - "**"
 jobs:
-  install_dependencies:
-    runs_on: ubuntu-latest
-
+  ci:
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          Node-version: '15'
-      - name: Install depedencies
-        run: npm install
-      - name: Install/Run ESLint
+          node-version: 15
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint with ESLint
         run: npm run lint
-      - name: Run prettier
-        run:  npm run prettier ––write
-      - name: Run test
+
+      - name: Check formatting with Prettier
+        run: npm run prettier -- --check
+
+      - name: Run Tests with Jest
         run: CI=true npm run test
-      - name: Run Build
+
+      - name: Build the application
         run: npm run build
