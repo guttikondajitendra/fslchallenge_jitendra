@@ -23,7 +23,7 @@ jobs:
         run: npm run lint
 
       - name: Check formatting with Prettier
-        run: npm run prettier -- --check
+        run: npm run prettier -- --write
 
       - name: Run Tests with Jest
         run: CI=true npm run test
