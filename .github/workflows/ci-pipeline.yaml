@@ -1,1 +1,32 @@
+name: CI npm build pipeline
 
+on:
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: checkout Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 15
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Setup ESlint
+        run: npm run lint
+
+      - name: Setup/Check format with prettier
+        run: npm run prettier -- --write
+
+      - name: test with jest
+        run: CI=true npm run test
+
+      - name: Build the application
+        run: npm run build
